@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mole Checker - ABCDE Evaluation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1><i class="fas fa-microscope"></i> Mole Checker</h1>
+            <p class="subtitle">AI-powered mole analysis using the ABCDE method</p>
+        </header>
+
+        <main class="app-content">
+            <div class="card">
+                <div class="upload-section">
+                    <div class="image-upload">
+                        <label for="moleImage" class="upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Upload Mole Image</span>
+                            <input type="file" id="moleImage" accept="image/*" capture="environment">
+                        </label>
+                        <div id="preview" class="image-preview"></div>
+                    </div>
+
+                    <div class="question-section">
+                        <h3>Have you noticed any recent changes?</h3>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="changes" value="size">
+                                <i class="fas fa-ruler"></i>
+                                <span>Size</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="changes" value="shape">
+                                <i class="fas fa-draw-polygon"></i>
+                                <span>Shape</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="changes" value="color">
+                                <i class="fas fa-palette"></i>
+                                <span>Color</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="changes" value="itchiness">
+                                <i class="fas fa-itchio"></i>
+                                <span>Itchiness</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="analyzeBtn" class="primary-btn" disabled>
+                    <i class="fas fa-magnifying-glass"></i>
+                    Analyze Mole
+                </button>
+
+                <div id="results" class="results-section hidden">
+                    <h3>Analysis Results</h3>
+                    <div id="analysisContent" class="analysis-content"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>Disclaimer: This analysis is for informational purposes only. Consult a healthcare professional for accurate diagnosis.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
