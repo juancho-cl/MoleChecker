@@ -1,5 +1,5 @@
 // Replace with your OpenAI API key
-const OPENAI_API_KEY = 'REMOVED_API_KEY';
+// const OPENAI_API_KEY = 'YOUR_API_KEY'; // REMOVE FROM FRONTEND
 
 // Constants
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -13,67 +13,30 @@ const analyzeBtn = document.getElementById('analyzeBtn');
 const resultsSection = document.getElementById('results');
 const analysisContent = document.getElementById('analysisContent');
 
-// Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('App initialized');
-    
-    if (!OPENAI_API_KEY || OPENAI_API_KEY === 'YOUR_API_KEY') {
-        showError('Please configure your OpenAI API key in the script.js file');
-        analyzeBtn.disabled = true;
-        return;
-    }
-    
-    // Add event listeners
     moleImage.addEventListener('change', handleImageUpload);
     analyzeBtn.addEventListener('click', handleAnalyze);
-    
-    // Add checkbox change listeners
     changesCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', updateAnalyzeButton);
     });
-    
-    console.log('Event listeners added');
 });
 
-// Handle image upload
 function handleImageUpload(e) {
-    console.log('Image upload triggered');
     const file = e.target.files[0];
-    
-    if (!file) {
-        console.log('No file selected');
-        return;
-    }
-
-    console.log('File selected:', file.name, file.type, file.size);
-
-    // Validate file type
+    if (!file) return;
     if (!SUPPORTED_FORMATS.includes(file.type)) {
         showError('Please upload a valid medical image file (JPEG, PNG, or GIF)');
         return;
     }
-
-    // Validate file size
     if (file.size > MAX_FILE_SIZE) {
         showError('File size is too large. Please upload an image smaller than 5MB for optimal analysis');
         return;
     }
-
-    // Show loading state
     preview.innerHTML = '<div class="loading">Processing medical image...</div>';
     preview.classList.remove('has-image');
-
-    // Show preview
     const reader = new FileReader();
-    
     reader.onload = function(e) {
-        console.log('File loaded successfully');
-        
-        // Store the image data for later use
         const imageData = e.target.result;
-        console.log('Image data type:', typeof imageData);
-        console.log('Image data starts with:', imageData.substring(0, 50));
-        
         preview.innerHTML = `
             <img src="${imageData}" alt="Medical Image Preview">
             <button class="clear-preview" title="Remove image">
@@ -81,11 +44,7 @@ function handleImageUpload(e) {
             </button>
         `;
         preview.classList.add('has-image');
-        
-        // Store image data in a data attribute for later use
         preview.setAttribute('data-image', imageData);
-        
-        // Add clear button event listener
         const clearBtn = preview.querySelector('.clear-preview');
         clearBtn.addEventListener('click', () => {
             moleImage.value = '';
@@ -95,67 +54,42 @@ function handleImageUpload(e) {
             analyzeBtn.disabled = true;
             resultsSection.classList.add('hidden');
         });
-
-        // Enable analyze button if image is uploaded
         updateAnalyzeButton();
-        console.log('Image preview created and button state updated');
     };
-    
     reader.onerror = () => {
-        console.error('Error reading file');
         showError('Failed to process medical image. Please try again.');
         preview.classList.remove('has-image');
     };
-    
     reader.readAsDataURL(file);
 }
 
-// Update analyze button state
 function updateAnalyzeButton() {
     const hasImage = preview.querySelector('img') !== null;
     const hasChanges = Array.from(changesCheckboxes).some(checkbox => checkbox.checked);
-    
-    console.log('Button state check:', { hasImage, hasChanges });
-    
-    // Enable button if image is uploaded or changes are selected
     analyzeBtn.disabled = !hasImage && !hasChanges;
-    
-    console.log('Button disabled:', analyzeBtn.disabled);
 }
 
-// Handle analyze button click
 async function handleAnalyze() {
     if (analyzeBtn.disabled) return;
-
     try {
-        // Get image data
         const imageElement = preview.querySelector('img');
         const hasImage = imageElement !== null;
         const imageData = preview.getAttribute('data-image');
-        
-        // Get selected changes
         const checkedChanges = Array.from(changesCheckboxes)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value);
-        
         if (!hasImage && checkedChanges.length === 0) {
             throw new Error('Please upload a medical image or select clinical changes to proceed with analysis');
         }
-
         const userAnswer = checkedChanges.length > 0 
             ? `Patient reports clinical changes in: ${checkedChanges.join(', ')}`
             : 'No recent clinical changes reported';
-
-        // Show loading state
         resultsSection.classList.remove('hidden');
         analysisContent.innerHTML = '<div class="loading">Performing medical analysis...</div>';
         analyzeBtn.disabled = true;
         analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-
-        // Prepare the messages array with strict JSON instructions
         let messages = [];
         const jsonInstructions = `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  "criteria": {\n    "Asymmetry": "...",\n    "Border": "...",\n    "Color": "...",\n    "Diameter": "...",\n    "Evolution": "..."\n  },\n  "risk": {\n    "percentage": 0-100,\n    "level": "Low|Medium|High",\n    "findings": "..."\n  },\n  "recommendation": "..."\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
-        
         if (hasImage && imageData) {
             messages = [
                 {
@@ -167,11 +101,7 @@ async function handleAnalyze() {
                     content: [
                         {
                             type: "text",
-                            text: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:
-1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution
-2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.
-
-Use professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
+                            text: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:\n1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution\n2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.\n\nUse professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
                         },
                         {
                             type: "image_url",
@@ -191,50 +121,35 @@ Use professional medical terminology and maintain a clinical, authoritative tone
                 },
                 {
                     role: "user",
-                    content: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:
-1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution (only if "Patient clinical history" is available)
-2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.
-
-Use professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
+                    content: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:\n1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution (only if "Patient clinical history" is available)\n2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.\n\nUse professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
                 }
             ];
         }
-
-        // Send request to OpenAI API
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        // Use Netlify function as proxy
+        const response = await fetch('/api/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: "gpt-4o",
                 messages: messages,
                 max_tokens: 500
             })
         });
-
         if (!response.ok) {
             const errorData = await response.json().catch(() => null);
             throw new Error(errorData?.error?.message || 'Medical analysis service temporarily unavailable. Please try again.');
         }
-
         const data = await response.json();
         let analysis = data.choices[0].message.content;
         let parsed = null;
         let warning = '';
-        // Try to parse as JSON
         try {
-            // Remove code block markers if present
             analysis = analysis.trim().replace(/^```json|^```|```$/g, '');
             parsed = JSON.parse(analysis);
         } catch (e) {
-            // Fallback to previous parser
             parsed = parseAnalysisResponse(analysis);
             warning = `<div class='error'><i class='fas fa-exclamation-circle'></i> <strong>Warning:</strong> The response was not in the expected JSON format. Displaying best-effort parsing.</div>`;
         }
-
-        // Display results
         resultsSection.classList.remove('hidden');
         analysisContent.innerHTML = `
             ${generateResultsHTML(parsed)}
@@ -252,7 +167,6 @@ Use professional medical terminology and maintain a clinical, authoritative tone
     }
 }
 
-// Show error message
 function showError(message) {
     resultsSection.classList.remove('hidden');
     analysisContent.innerHTML = `
@@ -263,7 +177,6 @@ function showError(message) {
     `;
 }
 
-// Show success message
 function showSuccess(message) {
     resultsSection.classList.remove('hidden');
     analysisContent.innerHTML = `
@@ -274,23 +187,17 @@ function showSuccess(message) {
     `;
 }
 
-// Parse API response into structured data
 function parseAnalysisResponse(response) {
     const analysis = {
         criteria: {},
         riskAssessment: {},
         recommendations: ''
     };
-
-    // --- ABCDE Criteria ---
-    // Match section with heading (ABCDE Criteria Evaluation or similar)
     const abcdeSectionMatch = response.match(/ABCDE Criteria (Evaluation|Analysis)?[\s\S]*?(?=###|$)/i);
     let abcdeSection = abcdeSectionMatch ? abcdeSectionMatch[0] : '';
     if (!abcdeSection) {
-        // fallback: try to match numbered list
         abcdeSection = response;
     }
-    // Match each criterion (1. **Asymmetry**: ...)
     const criteriaRegex = /\d+\.\s*\*\*([A-Za-z]+)\*\*:?\s*([\s\S]*?)(?=\n\d+\.|$)/g;
     let match;
     while ((match = criteriaRegex.exec(abcdeSection)) !== null) {
@@ -298,55 +205,40 @@ function parseAnalysisResponse(response) {
         const description = match[2].replace(/\n/g, ' ').trim();
         analysis.criteria[criterion] = description;
     }
-
-    // --- Risk Assessment ---
-    // Try to find risk section (Malignancy Risk Estimate or similar)
     const riskSectionMatch = response.match(/Malignancy Risk Estimate[\s\S]*?(?=###|$)/i);
     let riskSection = riskSectionMatch ? riskSectionMatch[0] : '';
     if (riskSection) {
-        // Try to extract percentage
         const percentMatch = riskSection.match(/(\d{1,3})%/);
         if (percentMatch) {
             analysis.riskAssessment.percentage = parseInt(percentMatch[1]);
             analysis.riskAssessment.level = getRiskLevel(analysis.riskAssessment.percentage);
         }
-        // Save the full risk section as findings
         analysis.riskAssessment.findings = riskSection.replace(/Malignancy Risk Estimate/i, '').replace(/\*\*/g, '').trim();
     } else {
-        // fallback: try to find any percentage in the text
         const percentMatch = response.match(/(\d{1,3})%/);
         if (percentMatch) {
             analysis.riskAssessment.percentage = parseInt(percentMatch[1]);
             analysis.riskAssessment.level = getRiskLevel(analysis.riskAssessment.percentage);
         }
     }
-
-    // --- Recommendations ---
-    // Try to find recommendation section
     const recSectionMatch = response.match(/Recommendation[\s\S]*?(?=###|$)/i);
     if (recSectionMatch) {
         analysis.recommendations = recSectionMatch[0].replace(/Recommendation:?/i, '').trim();
     }
-
     return analysis;
 }
 
-// Get risk level based on percentage
 function getRiskLevel(percentage) {
     if (percentage < 30) return 'Low';
     if (percentage < 60) return 'Medium';
     return 'High';
 }
 
-// Generate HTML for structured results
 function generateResultsHTML(analysis) {
-    // Soporta tanto el formato JSON como el flexible
     const risk = analysis.risk || analysis.riskAssessment || {};
     const criteria = analysis.criteria || {};
     const recommendation = analysis.recommendation || analysis.recommendations || '';
-
     const riskClass = (risk.level || 'Unknown').toLowerCase();
-
     return `
         <div class="analysis-results">
             <div class="risk-assessment ${riskClass}-risk">
@@ -359,7 +251,6 @@ function generateResultsHTML(analysis) {
                 </div>
                 ${risk.findings ? `<div class="findings-content">${risk.findings}</div>` : ''}
             </div>
-            
             <div class="abcde-analysis">
                 <h4><i class="fas fa-microscope"></i> ABCDE Criteria Analysis</h4>
                 <div class="criteria-grid">
@@ -374,7 +265,6 @@ function generateResultsHTML(analysis) {
                     `).join('')}
                 </div>
             </div>
-            
             ${recommendation ? `
                 <div class="recommendations-section">
                     <h4><i class="fas fa-user-md"></i> Medical Recommendations</h4>
@@ -385,4 +275,4 @@ function generateResultsHTML(analysis) {
             ` : ''}
         </div>
     `;
-}
+} 
