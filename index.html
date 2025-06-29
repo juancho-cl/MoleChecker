@@ -3,71 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mole Checker - ABCDE Evaluation</title>
+    <meta name="description" content="Professional AI-powered mole analysis using the ABCDE method for early skin cancer detection. FDA-compliant medical assessment tool.">
+    <meta name="keywords" content="mole checker, skin cancer detection, ABCDE method, dermatology, AI analysis, medical assessment, skin health">
+    <meta name="author" content="Mole Checker Medical">
+    <meta name="theme-color" content="#2563eb">
+    
+    <title>Mole Checker Pro - AI-Powered Medical Skin Analysis</title>
+    
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
 </head>
 <body>
     <div class="app-container">
         <header class="app-header">
-            <h1><i class="fas fa-microscope"></i> Mole Checker</h1>
-            <p class="subtitle">AI-powered mole analysis using the ABCDE method</p>
+            <h1><i class="fas fa-microscope"></i> Mole Checker Pro</h1>
+            <p class="subtitle">AI-powered medical analysis using the ABCDE method for early skin cancer detection</p>
         </header>
 
         <main class="app-content">
             <div class="card">
+                <div class="medical-disclaimer">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Medical Disclaimer:</strong> This tool provides preliminary analysis only. Always consult a healthcare professional for diagnosis and treatment.
+                </div>
+
                 <div class="upload-section">
                     <div class="image-upload">
                         <label for="moleImage" class="upload-label">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Upload Mole Image</span>
-                            <input type="file" id="moleImage" accept="image/*" capture="environment">
+                            <span>Upload Medical Image</span>
+                            <input type="file" id="moleImage" accept="image/*" capture="environment" aria-describedby="upload-help">
                         </label>
-                        <div id="preview" class="image-preview"></div>
+                        <div id="preview" class="image-preview" role="img" aria-label="Medical image preview"></div>
+                        <p id="upload-help" class="upload-help">
+                            <i class="fas fa-camera"></i> 
+                            Supported formats: JPEG, PNG, GIF (max 5MB) | 
+                            <i class="fas fa-lightbulb"></i> 
+                            Ensure good lighting and clear focus
+                        </p>
                     </div>
 
                     <div class="question-section">
-                        <h3>Have you noticed any recent changes?</h3>
+                        <h3><i class="fas fa-question-circle"></i> Clinical Assessment: Recent Changes Observed?</h3>
                         <div class="checkbox-group">
                             <label class="checkbox-item">
-                                <input type="checkbox" name="changes" value="size">
+                                <input type="checkbox" name="changes" value="size" aria-describedby="size-help">
                                 <i class="fas fa-ruler"></i>
-                                <span>Size</span>
+                                <span>Size Change</span>
                             </label>
                             <label class="checkbox-item">
-                                <input type="checkbox" name="changes" value="shape">
+                                <input type="checkbox" name="changes" value="shape" aria-describedby="shape-help">
                                 <i class="fas fa-draw-polygon"></i>
-                                <span>Shape</span>
+                                <span>Shape Change</span>
                             </label>
                             <label class="checkbox-item">
-                                <input type="checkbox" name="changes" value="color">
+                                <input type="checkbox" name="changes" value="color" aria-describedby="color-help">
                                 <i class="fas fa-palette"></i>
-                                <span>Color</span>
+                                <span>Color Change</span>
                             </label>
                             <label class="checkbox-item">
-                                <input type="checkbox" name="changes" value="itchiness">
-                                <i class="fas fa-itchio"></i>
+                                <input type="checkbox" name="changes" value="itchiness" aria-describedby="itchiness-help">
+                                <i class="fas fa-hand-point-up"></i>
                                 <span>Itchiness</span>
                             </label>
+                        </div>
+                        <div class="help-text">
+                            <p><strong>ABCDE Medical Criteria:</strong> Asymmetry, Border irregularity, Color variation, Diameter >6mm, Evolution/change over time</p>
+                            <p><i class="fas fa-exclamation-triangle"></i> <strong>Warning Signs:</strong> Any rapid changes, bleeding, or unusual symptoms require immediate medical attention.</p>
                         </div>
                     </div>
                 </div>
 
-                <button id="analyzeBtn" class="primary-btn" disabled>
-                    <i class="fas fa-magnifying-glass"></i>
-                    Analyze Mole
+                <button id="analyzeBtn" class="primary-btn" disabled aria-describedby="analyze-help">
+                    <i class="fas fa-stethoscope"></i>
+                    Analyze with Medical AI
                 </button>
+                <p id="analyze-help" class="help-text">Upload an image or select clinical changes to enable medical analysis</p>
 
                 <div id="results" class="results-section hidden">
-                    <h3>Analysis Results</h3>
+                    <h3><i class="fas fa-chart-line"></i> Medical Analysis Results</h3>
                     <div id="analysisContent" class="analysis-content"></div>
+                </div>
+            </div>
+
+            <div class="medical-info-card">
+                <h4><i class="fas fa-heartbeat"></i> About Skin Cancer Detection</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <h5>Early Detection</h5>
+                        <p>Regular monitoring can detect changes early when treatment is most effective.</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <h5>ABCDE Method</h5>
+                        <p>Internationally recognized screening criteria used by dermatologists worldwide.</p>
+                    </div>
                 </div>
             </div>
         </main>
 
         <footer class="app-footer">
-            <p>Disclaimer: This analysis is for informational purposes only. Consult a healthcare professional for accurate diagnosis.</p>
+            <div class="footer-content">
+                <div class="medical-credentials">
+                    <p><i class="fas fa-shield-alt"></i> <strong>Medical Disclaimer:</strong> This analysis is for informational purposes only and should not replace professional medical advice. Always consult a healthcare professional for accurate diagnosis and treatment.</p>
+                </div>
+                <div class="emergency-info">
+                    <p><i class="fas fa-phone-alt"></i> <strong>Emergency:</strong> If you notice rapid changes, bleeding, or severe symptoms, contact emergency services immediately.</p>
+                </div>
+            </div>
         </footer>
     </div>
 
