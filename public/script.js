@@ -180,7 +180,7 @@ function generateResultsHTML(analysis) {
     const riskBadgeBox = `
         <div class="risk-badge-box ${riskClass}-risk">
             <div class="risk-percentage">${typeof risk.percentage !== 'undefined' ? risk.percentage + '%' : 'N/A'}</div>
-            <div class="risk-level-badge ${riskClass}-risk">${risk.level ? risk.level.charAt(0).toUpperCase() + risk.level.slice(1) + ' Risk' : 'Unknown'}</div>
+            <div class="risk-label ${riskClass}-risk">${risk.level ? risk.level.toUpperCase() + ' RISK' : 'UNKNOWN'}</div>
         </div>
     `;
     return `
