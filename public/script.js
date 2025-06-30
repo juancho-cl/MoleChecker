@@ -69,6 +69,9 @@ function updateAnalyzeButton() {
 
 async function handleAnalyze() {
     if (analyzeBtn.disabled) return;
+    analyzeBtn.disabled = true;
+    resultsSection.classList.remove('hidden');
+    analysisContent.innerHTML = '<div class="loading"><span class="spinner"></span> Analyzing, please wait...</div>';
     try {
         const imageElement = preview.querySelector('img');
         const hasImage = imageElement !== null;
@@ -81,10 +84,6 @@ async function handleAnalyze() {
         const userAnswer = checkedChanges.length > 0 
             ? `Patient reports clinical changes in: ${checkedChanges.join(', ')}`
             : 'No recent clinical changes reported';
-        resultsSection.classList.remove('hidden');
-        analysisContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing, please wait...</div>';
-        analyzeBtn.disabled = true;
-
         const payload = {
             image: imageBase64,
             changes: checkedChanges
@@ -177,15 +176,19 @@ function generateResultsHTML(analysis) {
     const criteria = analysis.criteria || {};
     const recommendation = analysis.recommendation || analysis.recommendations || '';
     const riskClass = (risk.level || 'Unknown').toLowerCase();
+    // Risk badge box
+    const riskBadgeBox = `
+        <div class="risk-badge-box ${riskClass}-risk">
+            <div class="risk-percentage">${typeof risk.percentage !== 'undefined' ? risk.percentage + '%' : 'N/A'}</div>
+            <div class="risk-level-badge ${riskClass}-risk">${risk.level ? risk.level.charAt(0).toUpperCase() + risk.level.slice(1) + ' Risk' : 'Unknown'}</div>
+        </div>
+    `;
     return `
         <div class="analysis-results">
             <div class="risk-assessment ${riskClass}-risk">
                 <div class="risk-header">
                     <h4><i class="fas fa-chart-line"></i> Risk Assessment</h4>
-                    <div class="risk-badge ${riskClass}-risk">
-                        <span class="risk-percentage">${typeof risk.percentage !== 'undefined' ? risk.percentage : 'N/A'}%</span>
-                        <span class="risk-level">${risk.level || 'Unknown'} Risk</span>
-                    </div>
+                    ${riskBadgeBox}
                 </div>
                 ${risk.findings ? `<div class="findings-content">${risk.findings}</div>` : ''}
             </div>
@@ -198,7 +201,7 @@ function generateResultsHTML(analysis) {
                                 <span class="criterion-letter">${criterion.charAt(0)}</span>
                                 <h5>${criterion}</h5>
                             </div>
-                            <p>${criteria[criterion] || 'No information provided.'}</p>
+                            <p>${criteria[criterion] || 'Not provided'}</p>
                         </div>
                     `).join('')}
                 </div>
