@@ -36,7 +36,26 @@ function handleImageUpload(e) {
     const reader = new FileReader();
     reader.onload = (event) => {
         imageBase64 = event.target.result.split(',')[1];
-        preview.innerHTML = `<img src="${event.target.result}" alt="Mole preview"/>`;
+        preview.innerHTML = `
+            <img src="${event.target.result}" alt="Mole preview"/>
+            <button class="clear-preview" title="Remove image" aria-label="Remove image">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        preview.classList.add('has-image');
+        const clearBtn = preview.querySelector('.clear-preview');
+        clearBtn.addEventListener('click', () => {
+            moleImage.value = '';
+            imageBase64 = null;
+            preview.innerHTML = `
+                <div class="placeholder">
+                    <i class="fas fa-image"></i>
+                    <p>Drag or select a photo of your mole or skin spot here</p>
+                </div>
+            `;
+            preview.classList.remove('has-image');
+            updateAnalyzeButton();
+        });
         updateAnalyzeButton();
     };
     reader.readAsDataURL(file);
