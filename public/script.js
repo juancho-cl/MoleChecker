@@ -227,31 +227,7 @@ function renderResults(data) {
     } catch (e) {
         parsed = null;
     }
-    // ABCDE Criteria Analysis block
-    if (parsed && parsed.criteria) {
-        html += `<section class="abcde-results card-block">
-            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
-            <div class="abcde-grid">
-                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry</span><p>${parsed.criteria.Asymmetry || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border</span><p>${parsed.criteria.Border || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">C</span><div><span class="abcde-title">Color</span><p>${parsed.criteria.Color || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter</span><p>${parsed.criteria.Diameter || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution</span><p>${parsed.criteria.Evolution || 'N/A'}</p></div></div>
-            </div>
-        </section>`;
-    } else if (data.abcd) {
-        html += `<section class="abcde-results card-block">
-            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
-            <div class="abcde-grid">
-                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry</span><p>${data.abcd.asymmetry || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border</span><p>${data.abcd.border || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">C</span><div><span class="abcde-title">Color</span><p>${data.abcd.color || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter</span><p>${data.abcd.diameter || 'N/A'}</p></div></div>
-                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution</span><p>${data.abcd.evolution || 'N/A'}</p></div></div>
-            </div>
-        </section>`;
-    }
-    // Risk Assessment block
+    // Risk Assessment block (primero)
     if (parsed && parsed.risk) {
         let riskClass = '';
         let riskLabel = '';
@@ -262,27 +238,51 @@ function renderResults(data) {
         }
         html += `<section class="risk-level card-block ${riskClass}">
             <div class="risk-header"><i class="fas fa-exclamation-triangle"></i> RISK ASSESSMENT</div>
-            <div class="risk-content">
+            <div class="risk-content improved-risk">
+                <div class="risk-findings">${parsed.risk.findings || ''}</div>
                 <span class="risk-badge ${riskClass}">${riskLabel} ${parsed.risk.percentage !== undefined ? '(' + parsed.risk.percentage + '%)' : ''}</span>
-                <span class="risk-findings">${parsed.risk.findings || ''}</span>
             </div>
         </section>`;
     } else if (data.risk) {
         html += `<section class="risk-level card-block">
             <div class="risk-header"><i class="fas fa-exclamation-triangle"></i> RISK ASSESSMENT</div>
-            <div class="risk-content">
-                <span class="risk-badge">${data.risk}</span>
+            <div class="risk-content improved-risk">
+                <div class="risk-findings">${data.risk}</div>
             </div>
         </section>`;
     }
-    // Recommendation block
+    // ABCDE Criteria Analysis block (después de Risk)
+    if (parsed && parsed.criteria) {
+        html += `<section class="abcde-results card-block improved-abcde">
+            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
+            <div class="abcde-grid">
+                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry:</span><p>${parsed.criteria.Asymmetry || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border:</span><p>${parsed.criteria.Border || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">C</span><div><span class="abcde-title">Color:</span><p>${parsed.criteria.Color || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter:</span><p>${parsed.criteria.Diameter || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution:</span><p>${parsed.criteria.Evolution || 'N/A'}</p></div></div>
+            </div>
+        </section>`;
+    } else if (data.abcd) {
+        html += `<section class="abcde-results card-block improved-abcde">
+            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
+            <div class="abcde-grid">
+                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry:</span><p>${data.abcd.asymmetry || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border:</span><p>${data.abcd.border || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-title">Color:</span><p>${data.abcd.color || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter:</span><p>${data.abcd.diameter || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution:</span><p>${data.abcd.evolution || 'N/A'}</p></div></div>
+            </div>
+        </section>`;
+    }
+    // Recommendation block (sin rojo)
     if (parsed && parsed.recommendation) {
-        html += `<section class="recommendation card-block">
+        html += `<section class="recommendation card-block improved-recommendation">
             <div class="recommendation-header"><i class="fas fa-user-md"></i> Medical Recommendations</div>
             <div class="recommendation-content">${parsed.recommendation}</div>
         </section>`;
     } else if (data.recommendation) {
-        html += `<section class="recommendation card-block">
+        html += `<section class="recommendation card-block improved-recommendation">
             <div class="recommendation-header"><i class="fas fa-user-md"></i> Medical Recommendations</div>
             <div class="recommendation-content">${data.recommendation}</div>
         </section>`;
