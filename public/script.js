@@ -229,8 +229,8 @@ function renderResults(data) {
     }
     // ABCDE Breakdown
     if (parsed && parsed.criteria) {
-        html += `<div class="abcde-results">
-            <h4>ABCDE Breakdown</h4>
+        html += `<section class="abcde-results card-block">
+            <h4><i class="fas fa-vial"></i> ABCDE Breakdown</h4>
             <ul>
                 <li><strong>Asymmetry:</strong> ${parsed.criteria.Asymmetry || 'N/A'}</li>
                 <li><strong>Border:</strong> ${parsed.criteria.Border || 'N/A'}</li>
@@ -238,10 +238,10 @@ function renderResults(data) {
                 <li><strong>Diameter:</strong> ${parsed.criteria.Diameter || 'N/A'}</li>
                 <li><strong>Evolution:</strong> ${parsed.criteria.Evolution || 'N/A'}</li>
             </ul>
-        </div>`;
+        </section>`;
     } else if (data.abcd) {
-        html += `<div class="abcde-results">
-            <h4>ABCDE Breakdown</h4>
+        html += `<section class="abcde-results card-block">
+            <h4><i class="fas fa-vial"></i> ABCDE Breakdown</h4>
             <ul>
                 <li><strong>Asymmetry:</strong> ${data.abcd.asymmetry || 'N/A'}</li>
                 <li><strong>Border:</strong> ${data.abcd.border || 'N/A'}</li>
@@ -249,23 +249,42 @@ function renderResults(data) {
                 <li><strong>Diameter:</strong> ${data.abcd.diameter || 'N/A'}</li>
                 <li><strong>Evolution:</strong> ${data.abcd.evolution || 'N/A'}</li>
             </ul>
-        </div>`;
+        </section>`;
     }
     // Risk Assessment
     if (parsed && parsed.risk) {
-        html += `<div class="risk-level"><strong>Risk Assessment:</strong> <span>${parsed.risk.level || ''} (${parsed.risk.percentage !== undefined ? parsed.risk.percentage + '%' : ''})</span><br>${parsed.risk.findings || ''}</div>`;
+        let riskClass = '';
+        if (parsed.risk.level) {
+            if (/high/i.test(parsed.risk.level)) riskClass = 'risk-high';
+            else if (/medium/i.test(parsed.risk.level)) riskClass = 'risk-medium';
+            else if (/low/i.test(parsed.risk.level)) riskClass = 'risk-low';
+        }
+        html += `<section class="risk-level card-block ${riskClass}">
+            <h4><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h4>
+            <div class="risk-value"><strong>${parsed.risk.level || ''}${parsed.risk.percentage !== undefined ? ' (' + parsed.risk.percentage + '%)' : ''}</strong></div>
+            <div class="risk-findings">${parsed.risk.findings || ''}</div>
+        </section>`;
     } else if (data.risk) {
-        html += `<div class="risk-level"><strong>Risk Assessment:</strong> <span>${data.risk}</span></div>`;
+        html += `<section class="risk-level card-block">
+            <h4><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h4>
+            <div class="risk-value"><strong>${data.risk}</strong></div>
+        </section>`;
     }
     // Recommendation
     if (parsed && parsed.recommendation) {
-        html += `<div class="recommendation"><i class="fas fa-user-md"></i> <strong>Recommendation:</strong> ${parsed.recommendation}</div>`;
+        html += `<section class="recommendation card-block">
+            <h4><i class="fas fa-user-md"></i> Recommendation</h4>
+            <div>${parsed.recommendation}</div>
+        </section>`;
     } else if (data.recommendation) {
-        html += `<div class="recommendation"><i class="fas fa-user-md"></i> <strong>Recommendation:</strong> ${data.recommendation}</div>`;
+        html += `<section class="recommendation card-block">
+            <h4><i class="fas fa-user-md"></i> Recommendation</h4>
+            <div>${data.recommendation}</div>
+        </section>`;
     }
     // AI Summary fallback
     if (!parsed && data.result) {
-        html += `<div class="ai-summary"><strong>AI Summary:</strong> ${data.result}</div>`;
+        html += `<section class="ai-summary card-block"><strong>AI Summary:</strong> ${data.result}</section>`;
     }
     analysisContent.innerHTML = html;
 } 
