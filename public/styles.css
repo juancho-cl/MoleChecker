@@ -1309,335 +1309,4680 @@ body {
 }
 
 /* ABCDE Criteria Block */
-.abcde-results {
-    background: #f8fafc;
-    border: none;
-    box-shadow: none;
-    padding: 1.5em 1em 1em 1em;
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
 }
-.abcde-results h4 {
-    color: #2563eb;
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
     font-size: 1.15em;
     font-weight: 600;
-    margin-bottom: 1em;
+    color: #2563eb;
     display: flex;
     align-items: center;
     gap: 0.5em;
 }
-.abcde-results ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1em;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.abcde-results ul li {
-    background: #f1f5f9;
-    border-radius: 8px;
-    padding: 1em 1em 0.7em 1em;
-    margin: 0;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
     font-size: 1em;
+    margin-top: 0.5em;
 }
-.abcde-results ul li strong {
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
     display: flex;
     align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
     font-weight: 600;
     color: #2563eb;
-    font-size: 1.05em;
-}
-.abcde-results ul li::before {
-    content: attr(data-label);
-    display: none;
-}
-
-/* Recommendation Block */
-.recommendation {
-    border-left: 5px solid #ef4444;
-    background: #fef2f2;
-    color: #991b1b;
-    padding-left: 1.2em;
-    margin-top: 1.5em;
-}
-.recommendation h4 {
-    color: #dc2626;
-    font-size: 1.1em;
-    font-weight: 600;
-    margin-bottom: 0.5em;
     display: flex;
     align-items: center;
     gap: 0.5em;
 }
-.recommendation div {
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
     font-size: 1em;
-    color: #991b1b;
-}
-
-/* General card block spacing */
-.card-block + .card-block {
-    margin-top: 1.5em;
-}
-
-@media (max-width: 600px) {
-    .abcde-results ul {
-        grid-template-columns: 1fr;
-    }
-    .risk-level {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .risk-level .risk-value {
-        margin-left: 0;
-        margin-top: 1em;
-    }
-}
-
-/* ABCDE Criteria Analysis Grid */
-.abcde-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.2em;
-  margin-top: 1.2em;
-}
-.abcde-card {
-  background: #f1f5f9;
-  border-radius: 10px;
-  padding: 1.1em 1em 0.8em 1em;
-  display: flex;
-  align-items: flex-start;
-  gap: 1em;
-  box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
-  min-height: 90px;
-}
-.abcde-letter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  font-weight: 700;
-  color: #2563eb;
-  background: #e0e7ff;
-  border-radius: 50%;
-  width: 2.2em;
-  height: 2.2em;
-  flex-shrink: 0;
-  margin-top: 0.1em;
-}
-.abcde-title {
-  font-weight: 600;
-  color: #2563eb;
-  font-size: 1.08em;
-  margin-bottom: 0.2em;
-  display: block;
-}
-.abcde-card p {
-  margin: 0.2em 0 0 0;
-  color: #334155;
-  font-size: 1em;
-}
-
-/* Risk Assessment mejorado */
-.risk-level {
-  background: #f8fafc;
-  border: none;
-  box-shadow: none;
-  padding: 1.5em 1em 1.2em 1em;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-  border-radius: 12px;
-  display: block;
-}
-.risk-header {
-  color: #2563eb;
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-bottom: 1.1em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  letter-spacing: 0.01em;
-}
-.risk-content {
-  display: flex;
-  align-items: center;
-  gap: 1.2em;
-}
-.risk-badge {
-  font-weight: 700;
-  font-size: 1.1em;
-  border-radius: 8px;
-  padding: 0.7em 1.2em;
-  min-width: 110px;
-  text-align: center;
-  border: 2px solid #e5e7eb;
-  background: #fff;
-  color: #2563eb;
-  margin-right: 1em;
-  letter-spacing: 0.03em;
-}
-.risk-high .risk-badge {
-  background: #fef2f2;
-  color: #dc2626;
-  border-color: #fecaca;
-}
-.risk-medium .risk-badge {
-  background: #fff7ed;
-  color: #d97706;
-  border-color: #fde68a;
-}
-.risk-low .risk-badge {
-  background: #f0fdf4;
-  color: #16a34a;
-  border-color: #bbf7d0;
-}
-.risk-findings {
-  color: #64748b;
-  font-size: 1em;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-/* Medical Recommendations neutro */
-.recommendation {
-  border-left: 5px solid #e5e7eb;
-  background: #fff;
-  color: #334155;
-  padding-left: 1.2em;
-  margin-top: 1.5em;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
-}
-.recommendation-header {
-  color: #334155;
-  font-size: 1.1em;
-  font-weight: 700;
-  margin-bottom: 0.5em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-.recommendation-content {
-  font-size: 1em;
-  color: #334155;
-  font-weight: 500;
-}
-
-@media (max-width: 600px) {
-  .abcde-grid {
-    grid-template-columns: 1fr;
-  }
-  .risk-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7em;
-  }
-  .risk-badge {
-    margin-right: 0;
-    margin-bottom: 0.5em;
-  }
-}
-
-/* ABCDE Criteria Analysis mejorado */
-.abcde-results.improved-abcde {
-  background: #f8fafc;
-  border: none;
-  box-shadow: none;
-  padding: 1.5em 1em 1em 1em;
-}
-.abcde-results.improved-abcde h4 {
-  color: #2563eb;
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-.abcde-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.2em;
-  margin-top: 1.2em;
-}
-.abcde-card {
-  background: #f1f5f9;
-  border-radius: 10px;
-  padding: 1.1em 1em 0.8em 1em;
-  display: flex;
-  align-items: flex-start;
-  gap: 1em;
-  box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
-  min-height: 90px;
-}
-.abcde-letter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  font-weight: 700;
-  color: #2563eb;
-  background: #e0e7ff;
-  border-radius: 50%;
-  width: 2.2em;
-  height: 2.2em;
-  flex-shrink: 0;
-  margin-top: 0.1em;
-}
-.abcde-title {
-  font-weight: 600;
-  color: #2563eb;
-  font-size: 1.08em;
-  margin-bottom: 0.2em;
-  display: block;
-}
-.abcde-card p {
-  margin: 0.2em 0 0 0;
-  color: #334155;
-  font-size: 1em;
-}
-
-/* Medical Recommendations neutro */
-.recommendation.improved-recommendation {
-  border-left: 5px solid #e5e7eb;
-  background: #fff;
-  color: #334155;
-  padding-left: 1.2em;
-  margin-top: 1.5em;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
-}
-.recommendation-header {
-  color: #334155;
-  font-size: 1.1em;
-  font-weight: 700;
-  margin-bottom: 0.5em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-.recommendation-content {
-  font-size: 1em;
-  color: #334155;
-  font-weight: 500;
-}
-
-@media (max-width: 600px) {
-  .abcde-grid {
-    grid-template-columns: 1fr;
-  }
-  .risk-content.improved-risk {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7em;
-  }
-  .risk-badge {
-    margin-left: 0;
     margin-top: 0.5em;
-  }
 }
 
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.criterion-item h5 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.criterion-item p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Findings Section */
+.findings-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.findings-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.findings-section h4 i {
+    color: var(--primary-color);
+}
+
+.findings-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+}
+
+.recommendations-section h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.recommendations-section h4 i {
+    color: var(--accent-color);
+}
+
+.recommendations-content {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+    .risk-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+    }
+    
+    .criteria-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .criterion-item {
+        padding: var(--space-md);
+    }
+    
+    .risk-assessment,
+    .abcde-analysis,
+    .findings-section,
+    .recommendations-section {
+        padding: var(--space-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .risk-badge {
+        min-width: 80px;
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .risk-percentage {
+        font-size: 1.25rem;
+    }
+    
+    .risk-level {
+        font-size: 0.7rem;
+    }
+    
+    .criterion-letter {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-analysis {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-color);
+}
+
+.abcde-analysis h4 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.abcde-analysis h4 i {
+    color: var(--primary-color);
+}
+
+.criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.criterion-item {
+    background: var(--background-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+}
+
+.criterion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.criterion-letter {
+    background: var(--primary-color);
+    color: white
