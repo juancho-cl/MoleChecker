@@ -45,6 +45,10 @@ exports.handler = async function(event, context) {
   // Add JSON instructions
   prompt += `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  \"criteria\": {\n    \"Asymmetry\": \"...\",\n    \"Border\": \"...\",\n    \"Color\": \"...\",\n    \"Diameter\": \"...\",\n    \"Evolution\": \"...\"\n  },\n  \"risk\": {\n    \"percentage\": 0-100,\n    \"level\": \"Low|Medium|High\",\n    \"findings\": \"...\"\n  },\n  \"recommendation\": \"...\"\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
 
+  // Log prompt
+  console.log('--- OpenAI Prompt Sent ---');
+  console.log(prompt);
+
   try {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -66,6 +70,9 @@ exports.handler = async function(event, context) {
     if (!openaiData.choices || !openaiData.choices[0] || !openaiData.choices[0].message) {
       throw new Error('No valid response from OpenAI');
     }
+    // Log OpenAI response
+    console.log('--- OpenAI Response Received ---');
+    console.log(JSON.stringify(openaiData, null, 2));
     // Try to parse ABCDE, risk, recommendation from the response
     const resultText = openaiData.choices[0].message.content;
     // Simple parsing (could be improved with more structure)
