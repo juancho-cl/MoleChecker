@@ -35,13 +35,15 @@ exports.handler = async function(event, context) {
   }
 
   // Compose prompt for OpenAI
-  let prompt = `You are a medical AI assistant. Analyze the provided skin lesion image (base64) and/or clinical changes using the ABCDE method (Asymmetry, Border, Color, Diameter, Evolution). Provide a risk assessment (low/medium/high), a breakdown of ABCDE, and a clear recommendation. If image is missing, use only the clinical changes. If both are missing, return an error.`;
+  let prompt = `Please provide a comprehensive medical analysis including:\n1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution\n2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.\n\nUse professional medical terminology and maintain a clinical, authoritative tone.`;
   if (changes && changes.length > 0) {
     prompt += `\n\nObserved clinical changes: ${changes.join(', ')}.`;
   }
   if (image) {
     prompt += `\n\nImage (base64, JPEG/PNG): [image data omitted for brevity]`;
   }
+  // Add JSON instructions
+  prompt += `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  \"criteria\": {\n    \"Asymmetry\": \"...\",\n    \"Border\": \"...\",\n    \"Color\": \"...\",\n    \"Diameter\": \"...\",\n    \"Evolution\": \"...\"\n  },\n  \"risk\": {\n    \"percentage\": 0-100,\n    \"level\": \"Low|Medium|High\",\n    \"findings\": \"...\"\n  },\n  \"recommendation\": \"...\"\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
 
   try {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -53,7 +55,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
         messages: [
-          { role: 'system', content: 'You are a medical AI assistant for skin lesion analysis using the ABCDE method.' },
+          { role: 'system', content: 'You are a medical AI assistant specialized in dermatology and skin health assessment. Analyze the provided skin lesion image using the ABCDE criteria (Asymmetry, Border irregularity, Color variation, Diameter, Evolution) to identify potential risk factors for skin cancer. Provide an estimated percentage risk of malignancy based on those criteria, briefly explain which findings support your evaluation, and suggest the next step.' },
           { role: 'user', content: prompt }
         ],
         max_tokens: 500,

@@ -82,85 +82,26 @@ async function handleAnalyze() {
             ? `Patient reports clinical changes in: ${checkedChanges.join(', ')}`
             : 'No recent clinical changes reported';
         resultsSection.classList.remove('hidden');
-        analysisContent.innerHTML = '<div class="loading">Performing medical analysis...</div>';
+        analysisContent.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing, please wait...</div>';
         analyzeBtn.disabled = true;
-        analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-        let messages = [];
-        const jsonInstructions = `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  "criteria": {\n    "Asymmetry": "...",\n    "Border": "...",\n    "Color": "...",\n    "Diameter": "...",\n    "Evolution": "..."\n  },\n  "risk": {\n    "percentage": 0-100,\n    "level": "Low|Medium|High",\n    "findings": "..."\n  },\n  "recommendation": "..."\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
-        if (hasImage && imageBase64) {
-            messages = [
-                {
-                    role: "system",
-                    content: "You are a medical AI assistant specialized in dermatology and skin health assessment. Analyze the provided skin lesion image using the ABCDE criteria (Asymmetry, Border irregularity, Color variation, Diameter, Evolution) to identify potential risk factors for skin cancer. Provide an estimated percentage risk of malignancy based on those criteria, briefly explain which findings support your evaluation, and suggest the next step." + jsonInstructions
-                },
-                {
-                    role: "user",
-                    content: [
-                        {
-                            type: "text",
-                            text: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:\n1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution\n2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.\n\nUse professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
-                        },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: `data:image/jpeg;base64,${imageBase64}`,
-                                detail: "high"
-                            }
-                        }
-                    ]
-                }
-            ];
-        } else {
-            messages = [
-                {
-                    role: "system",
-                    content: "You are a medical AI assistant specialized in dermatology and skin health assessment. Analyze skin lesions and moles using the ABCDE criteria (Asymmetry, Border irregularity, Color variation, Diameter, Evolution) to identify potential risk factors for skin cancer. Provide an estimated percentage risk of malignancy based on those criteria, briefly explain which findings support your evaluation, and suggest the next step." + jsonInstructions
-                },
-                {
-                    role: "user",
-                    content: `Patient clinical history: '${userAnswer}'. Please provide a comprehensive medical analysis including:\n1. Describe its relevant characteristics using the ABCDE criteria: Asymmetry, Borders, Color, Diameter, Evolution (only if "Patient clinical history" is available)\n2. Based on that description, estimate the probability that it is malignant (10%–90%, in 5% increments) and briefly explain which findings influenced that estimate.\n\nUse professional medical terminology and maintain a clinical, authoritative tone.` + jsonInstructions
-                }
-            ];
-        }
-        // Use Netlify function as proxy
+
+        const payload = {
+            image: imageBase64,
+            changes: checkedChanges
+        };
+
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                model: "gpt-4o",
-                messages: messages,
-                max_tokens: 500
-            })
+            body: JSON.stringify(payload)
         });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            throw new Error(errorData?.error?.message || 'Medical analysis service temporarily unavailable. Please try again.');
-        }
+        if (!response.ok) throw new Error('Medical analysis service temporarily unavailable.');
         const data = await response.json();
-        let analysis = data.choices[0].message.content;
-        let parsed = null;
-        let warning = '';
-        try {
-            analysis = analysis.trim().replace(/^```json|^```|```$/g, '');
-            parsed = JSON.parse(analysis);
-        } catch (e) {
-            parsed = parseAnalysisResponse(analysis);
-            warning = `<div class='error'><i class='fas fa-exclamation-circle'></i> <strong>Warning:</strong> The response was not in the expected JSON format. Displaying best-effort parsing.</div>`;
-        }
-        resultsSection.classList.remove('hidden');
-        analysisContent.innerHTML = `
-            ${generateResultsHTML(parsed)}
-            ${warning}
-            <div class="warning">
-                <i class="fas fa-exclamation-triangle"></i>
-                <strong>Medical Disclaimer:</strong> This analysis is a screening tool for informational purposes only. It does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for proper medical evaluation and care. If you experience rapid changes, bleeding, or concerning symptoms, seek immediate medical attention.
-            </div>
-        `;
-    } catch (error) {
-        showError(error.message);
+        renderResults(data);
+    } catch (err) {
+        analysisContent.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> ${err.message}</div>`;
     } finally {
         analyzeBtn.disabled = false;
-        analyzeBtn.innerHTML = '<i class="fas fa-stethoscope"></i> Analyze with Medical AI';
     }
 }
 
@@ -270,6 +211,28 @@ function generateResultsHTML(analysis) {
                     </div>
                 </div>
             ` : ''}
+        </div>
+    `;
+}
+
+function renderResults(data) {
+    let analysis = data.choices[0].message.content;
+    let parsed = null;
+    let warning = '';
+    try {
+        analysis = analysis.trim().replace(/^```json|^```|```$/g, '');
+        parsed = JSON.parse(analysis);
+    } catch (e) {
+        parsed = parseAnalysisResponse(analysis);
+        warning = `<div class='error'><i class='fas fa-exclamation-circle'></i> <strong>Warning:</strong> The response was not in the expected JSON format. Displaying best-effort parsing.</div>`;
+    }
+    resultsSection.classList.remove('hidden');
+    analysisContent.innerHTML = `
+        ${generateResultsHTML(parsed)}
+        ${warning}
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Medical Disclaimer:</strong> This analysis is a screening tool for informational purposes only. It does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for proper medical evaluation and care. If you experience rapid changes, bleeding, or concerning symptoms, seek immediate medical attention.
         </div>
     `;
 } 
