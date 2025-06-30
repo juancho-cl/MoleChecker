@@ -1174,3 +1174,168 @@ body {
     }
 }
 
+/* --- Medical Analysis Results --- */
+.results-section {
+    margin-top: 2em;
+}
+.card-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(16,30,54,0.04);
+    padding: 2em 1.5em 1.5em 1.5em;
+    margin-bottom: 1.5em;
+    border: 1.5px solid #e5e7eb;
+}
+
+/* Risk Assessment Block */
+.risk-level {
+    border-top: 4px solid #22c55e;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.2em;
+    margin-bottom: 2em;
+}
+.risk-level .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 1.3em;
+    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    min-width: 110px;
+    text-align: center;
+    border: 1.5px solid #bbf7d0;
+    margin-left: 2em;
+    align-self: flex-start;
+}
+.risk-level.risk-high {
+    border-top-color: #ef4444;
+}
+.risk-level.risk-high .risk-value {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+.risk-level.risk-medium {
+    border-top-color: #f59e42;
+}
+.risk-level.risk-medium .risk-value {
+    background: #fff7ed;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.risk-level.risk-low {
+    border-top-color: #22c55e;
+}
+.risk-level.risk-low .risk-value {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+.risk-level h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.risk-level .risk-findings {
+    flex: 1 1 0%;
+    color: #334155;
+    font-size: 1em;
+    margin-top: 0.5em;
+}
+
+/* ABCDE Criteria Block */
+.abcde-results {
+    background: #f8fafc;
+    border: none;
+    box-shadow: none;
+    padding: 1.5em 1em 1em 1em;
+}
+.abcde-results h4 {
+    color: #2563eb;
+    font-size: 1.15em;
+    font-weight: 600;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.abcde-results ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1em;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.abcde-results ul li {
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 1em 1em 0.7em 1em;
+    margin: 0;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    box-shadow: 0 1px 2px 0 rgba(16,30,54,0.03);
+    font-size: 1em;
+}
+.abcde-results ul li strong {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #2563eb;
+    font-size: 1.05em;
+}
+.abcde-results ul li::before {
+    content: attr(data-label);
+    display: none;
+}
+
+/* Recommendation Block */
+.recommendation {
+    border-left: 5px solid #ef4444;
+    background: #fef2f2;
+    color: #991b1b;
+    padding-left: 1.2em;
+    margin-top: 1.5em;
+}
+.recommendation h4 {
+    color: #dc2626;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.recommendation div {
+    font-size: 1em;
+    color: #991b1b;
+}
+
+/* General card block spacing */
+.card-block + .card-block {
+    margin-top: 1.5em;
+}
+
+@media (max-width: 600px) {
+    .abcde-results ul {
+        grid-template-columns: 1fr;
+    }
+    .risk-level {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .risk-level .risk-value {
+        margin-left: 0;
+        margin-top: 1em;
+    }
+}
+
