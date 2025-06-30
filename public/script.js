@@ -216,23 +216,30 @@ function generateResultsHTML(analysis) {
 }
 
 function renderResults(data) {
-    let analysis = data.choices[0].message.content;
-    let parsed = null;
-    let warning = '';
-    try {
-        analysis = analysis.trim().replace(/^```json|^```|```$/g, '');
-        parsed = JSON.parse(analysis);
-    } catch (e) {
-        parsed = parseAnalysisResponse(analysis);
-        warning = `<div class='error'><i class='fas fa-exclamation-circle'></i> <strong>Warning:</strong> The response was not in the expected JSON format. Displaying best-effort parsing.</div>`;
+    // Robust parsing for ABCDE and risk assessment
+    if (!data || !data.result) {
+        analysisContent.innerHTML = '<div class="error">No valid analysis received. Please try again.</div>';
+        return;
     }
-    resultsSection.classList.remove('hidden');
-    analysisContent.innerHTML = `
-        ${generateResultsHTML(parsed)}
-        ${warning}
-        <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i>
-            <strong>Medical Disclaimer:</strong> This analysis is a screening tool for informational purposes only. It does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for proper medical evaluation and care. If you experience rapid changes, bleeding, or concerning symptoms, seek immediate medical attention.
-        </div>
-    `;
+    let html = '';
+    if (data.abcd) {
+        html += `<div class="abcde-results">
+            <h4>ABCDE Breakdown</h4>
+            <ul>
+                <li><strong>Asymmetry:</strong> ${data.abcd.asymmetry || 'N/A'}</li>
+                <li><strong>Border:</strong> ${data.abcd.border || 'N/A'}</li>
+                <li><strong>Color:</strong> ${data.abcd.color || 'N/A'}</li>
+                <li><strong>Diameter:</strong> ${data.abcd.diameter || 'N/A'}</li>
+                <li><strong>Evolution:</strong> ${data.abcd.evolution || 'N/A'}</li>
+            </ul>
+        </div>`;
+    }
+    if (data.risk) {
+        html += `<div class="risk-level"><strong>Risk Assessment:</strong> <span>${data.risk}</span></div>`;
+    }
+    html += `<div class="ai-summary"><strong>AI Summary:</strong> ${data.result}</div>`;
+    if (data.recommendation) {
+        html += `<div class="recommendation"><i class="fas fa-user-md"></i> <strong>Recommendation:</strong> ${data.recommendation}</div>`;
+    }
+    analysisContent.innerHTML = html;
 } 
