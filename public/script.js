@@ -227,64 +227,65 @@ function renderResults(data) {
     } catch (e) {
         parsed = null;
     }
-    // ABCDE Breakdown
+    // ABCDE Criteria Analysis block
     if (parsed && parsed.criteria) {
         html += `<section class="abcde-results card-block">
-            <h4><i class="fas fa-vial"></i> ABCDE Breakdown</h4>
-            <ul>
-                <li><strong>Asymmetry:</strong> ${parsed.criteria.Asymmetry || 'N/A'}</li>
-                <li><strong>Border:</strong> ${parsed.criteria.Border || 'N/A'}</li>
-                <li><strong>Color:</strong> ${parsed.criteria.Color || 'N/A'}</li>
-                <li><strong>Diameter:</strong> ${parsed.criteria.Diameter || 'N/A'}</li>
-                <li><strong>Evolution:</strong> ${parsed.criteria.Evolution || 'N/A'}</li>
-            </ul>
+            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
+            <div class="abcde-grid">
+                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry</span><p>${parsed.criteria.Asymmetry || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border</span><p>${parsed.criteria.Border || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">C</span><div><span class="abcde-title">Color</span><p>${parsed.criteria.Color || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter</span><p>${parsed.criteria.Diameter || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution</span><p>${parsed.criteria.Evolution || 'N/A'}</p></div></div>
+            </div>
         </section>`;
     } else if (data.abcd) {
         html += `<section class="abcde-results card-block">
-            <h4><i class="fas fa-vial"></i> ABCDE Breakdown</h4>
-            <ul>
-                <li><strong>Asymmetry:</strong> ${data.abcd.asymmetry || 'N/A'}</li>
-                <li><strong>Border:</strong> ${data.abcd.border || 'N/A'}</li>
-                <li><strong>Color:</strong> ${data.abcd.color || 'N/A'}</li>
-                <li><strong>Diameter:</strong> ${data.abcd.diameter || 'N/A'}</li>
-                <li><strong>Evolution:</strong> ${data.abcd.evolution || 'N/A'}</li>
-            </ul>
+            <h4><i class="fas fa-pen"></i> ABCDE Criteria Analysis</h4>
+            <div class="abcde-grid">
+                <div class="abcde-card"><span class="abcde-letter">A</span><div><span class="abcde-title">Asymmetry</span><p>${data.abcd.asymmetry || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">B</span><div><span class="abcde-title">Border</span><p>${data.abcd.border || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">C</span><div><span class="abcde-title">Color</span><p>${data.abcd.color || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">D</span><div><span class="abcde-title">Diameter</span><p>${data.abcd.diameter || 'N/A'}</p></div></div>
+                <div class="abcde-card"><span class="abcde-letter">E</span><div><span class="abcde-title">Evolution</span><p>${data.abcd.evolution || 'N/A'}</p></div></div>
+            </div>
         </section>`;
     }
-    // Risk Assessment
+    // Risk Assessment block
     if (parsed && parsed.risk) {
         let riskClass = '';
+        let riskLabel = '';
         if (parsed.risk.level) {
-            if (/high/i.test(parsed.risk.level)) riskClass = 'risk-high';
-            else if (/medium/i.test(parsed.risk.level)) riskClass = 'risk-medium';
-            else if (/low/i.test(parsed.risk.level)) riskClass = 'risk-low';
+            if (/high/i.test(parsed.risk.level)) { riskClass = 'risk-high'; riskLabel = 'HIGH'; }
+            else if (/medium/i.test(parsed.risk.level)) { riskClass = 'risk-medium'; riskLabel = 'MEDIUM'; }
+            else if (/low/i.test(parsed.risk.level)) { riskClass = 'risk-low'; riskLabel = 'LOW'; }
         }
         html += `<section class="risk-level card-block ${riskClass}">
-            <h4><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h4>
-            <div class="risk-value"><strong>${parsed.risk.level || ''}${parsed.risk.percentage !== undefined ? ' (' + parsed.risk.percentage + '%)' : ''}</strong></div>
-            <div class="risk-findings">${parsed.risk.findings || ''}</div>
+            <div class="risk-header"><i class="fas fa-exclamation-triangle"></i> RISK ASSESSMENT</div>
+            <div class="risk-content">
+                <span class="risk-badge ${riskClass}">${riskLabel} ${parsed.risk.percentage !== undefined ? '(' + parsed.risk.percentage + '%)' : ''}</span>
+                <span class="risk-findings">${parsed.risk.findings || ''}</span>
+            </div>
         </section>`;
     } else if (data.risk) {
         html += `<section class="risk-level card-block">
-            <h4><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h4>
-            <div class="risk-value"><strong>${data.risk}</strong></div>
+            <div class="risk-header"><i class="fas fa-exclamation-triangle"></i> RISK ASSESSMENT</div>
+            <div class="risk-content">
+                <span class="risk-badge">${data.risk}</span>
+            </div>
         </section>`;
     }
-    // Recommendation
+    // Recommendation block
     if (parsed && parsed.recommendation) {
         html += `<section class="recommendation card-block">
-            <h4><i class="fas fa-user-md"></i> Recommendation</h4>
-            <div>${parsed.recommendation}</div>
+            <div class="recommendation-header"><i class="fas fa-user-md"></i> Medical Recommendations</div>
+            <div class="recommendation-content">${parsed.recommendation}</div>
         </section>`;
     } else if (data.recommendation) {
         html += `<section class="recommendation card-block">
-            <h4><i class="fas fa-user-md"></i> Recommendation</h4>
-            <div>${data.recommendation}</div>
+            <div class="recommendation-header"><i class="fas fa-user-md"></i> Medical Recommendations</div>
+            <div class="recommendation-content">${data.recommendation}</div>
         </section>`;
-    }
-    // AI Summary fallback
-    if (!parsed && data.result) {
-        html += `<section class="ai-summary card-block"><strong>AI Summary:</strong> ${data.result}</section>`;
     }
     analysisContent.innerHTML = html;
 } 
