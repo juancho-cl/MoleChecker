@@ -1,6 +1,3 @@
-// Replace with your OpenAI API key
-// const OPENAI_API_KEY = 'YOUR_API_KEY'; // REMOVE FROM FRONTEND
-
 // Constants
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const SUPPORTED_FORMATS = ['image/jpeg', 'image/png', 'image/gif'];
@@ -13,6 +10,8 @@ const analyzeBtn = document.getElementById('analyzeBtn');
 const resultsSection = document.getElementById('results');
 const analysisContent = document.getElementById('analysisContent');
 
+let imageBase64 = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     moleImage.addEventListener('change', handleImageUpload);
     analyzeBtn.addEventListener('click', handleAnalyze);
@@ -24,41 +23,21 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleImageUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
-    if (!SUPPORTED_FORMATS.includes(file.type)) {
-        showError('Please upload a valid medical image file (JPEG, PNG, or GIF)');
+    if (!file.type.startsWith('image/')) {
+        alert('Please upload a valid image file.');
+        moleImage.value = '';
         return;
     }
-    if (file.size > MAX_FILE_SIZE) {
-        showError('File size is too large. Please upload an image smaller than 5MB for optimal analysis');
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Image must be less than 5MB.');
+        moleImage.value = '';
         return;
     }
-    preview.innerHTML = '<div class="loading">Processing medical image...</div>';
-    preview.classList.remove('has-image');
     const reader = new FileReader();
-    reader.onload = function(e) {
-        const imageData = e.target.result;
-        preview.innerHTML = `
-            <img src="${imageData}" alt="Medical Image Preview">
-            <button class="clear-preview" title="Remove image">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-        preview.classList.add('has-image');
-        preview.setAttribute('data-image', imageData);
-        const clearBtn = preview.querySelector('.clear-preview');
-        clearBtn.addEventListener('click', () => {
-            moleImage.value = '';
-            preview.innerHTML = '';
-            preview.classList.remove('has-image');
-            preview.removeAttribute('data-image');
-            analyzeBtn.disabled = true;
-            resultsSection.classList.add('hidden');
-        });
+    reader.onload = (event) => {
+        imageBase64 = event.target.result.split(',')[1];
+        preview.innerHTML = `<img src="${event.target.result}" alt="Mole preview"/>`;
         updateAnalyzeButton();
-    };
-    reader.onerror = () => {
-        showError('Failed to process medical image. Please try again.');
-        preview.classList.remove('has-image');
     };
     reader.readAsDataURL(file);
 }
@@ -74,7 +53,6 @@ async function handleAnalyze() {
     try {
         const imageElement = preview.querySelector('img');
         const hasImage = imageElement !== null;
-        const imageData = preview.getAttribute('data-image');
         const checkedChanges = Array.from(changesCheckboxes)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value);
@@ -90,7 +68,7 @@ async function handleAnalyze() {
         analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
         let messages = [];
         const jsonInstructions = `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  "criteria": {\n    "Asymmetry": "...",\n    "Border": "...",\n    "Color": "...",\n    "Diameter": "...",\n    "Evolution": "..."\n  },\n  "risk": {\n    "percentage": 0-100,\n    "level": "Low|Medium|High",\n    "findings": "..."\n  },\n  "recommendation": "..."\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
-        if (hasImage && imageData) {
+        if (hasImage && imageBase64) {
             messages = [
                 {
                     role: "system",
@@ -106,7 +84,7 @@ async function handleAnalyze() {
                         {
                             type: "image_url",
                             image_url: {
-                                url: imageData,
+                                url: `data:image/jpeg;base64,${imageBase64}`,
                                 detail: "high"
                             }
                         }
