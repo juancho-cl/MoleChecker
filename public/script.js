@@ -216,13 +216,30 @@ function generateResultsHTML(analysis) {
 }
 
 function renderResults(data) {
-    // Robust parsing for ABCDE and risk assessment
     if (!data || !data.result) {
         analysisContent.innerHTML = '<div class="error">No valid analysis received. Please try again.</div>';
         return;
     }
     let html = '';
-    if (data.abcd) {
+    let parsed = null;
+    try {
+        parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
+    } catch (e) {
+        parsed = null;
+    }
+    // ABCDE Breakdown
+    if (parsed && parsed.criteria) {
+        html += `<div class="abcde-results">
+            <h4>ABCDE Breakdown</h4>
+            <ul>
+                <li><strong>Asymmetry:</strong> ${parsed.criteria.Asymmetry || 'N/A'}</li>
+                <li><strong>Border:</strong> ${parsed.criteria.Border || 'N/A'}</li>
+                <li><strong>Color:</strong> ${parsed.criteria.Color || 'N/A'}</li>
+                <li><strong>Diameter:</strong> ${parsed.criteria.Diameter || 'N/A'}</li>
+                <li><strong>Evolution:</strong> ${parsed.criteria.Evolution || 'N/A'}</li>
+            </ul>
+        </div>`;
+    } else if (data.abcd) {
         html += `<div class="abcde-results">
             <h4>ABCDE Breakdown</h4>
             <ul>
@@ -234,12 +251,21 @@ function renderResults(data) {
             </ul>
         </div>`;
     }
-    if (data.risk) {
+    // Risk Assessment
+    if (parsed && parsed.risk) {
+        html += `<div class="risk-level"><strong>Risk Assessment:</strong> <span>${parsed.risk.level || ''} (${parsed.risk.percentage !== undefined ? parsed.risk.percentage + '%' : ''})</span><br>${parsed.risk.findings || ''}</div>`;
+    } else if (data.risk) {
         html += `<div class="risk-level"><strong>Risk Assessment:</strong> <span>${data.risk}</span></div>`;
     }
-    html += `<div class="ai-summary"><strong>AI Summary:</strong> ${data.result}</div>`;
-    if (data.recommendation) {
+    // Recommendation
+    if (parsed && parsed.recommendation) {
+        html += `<div class="recommendation"><i class="fas fa-user-md"></i> <strong>Recommendation:</strong> ${parsed.recommendation}</div>`;
+    } else if (data.recommendation) {
         html += `<div class="recommendation"><i class="fas fa-user-md"></i> <strong>Recommendation:</strong> ${data.recommendation}</div>`;
+    }
+    // AI Summary fallback
+    if (!parsed && data.result) {
+        html += `<div class="ai-summary"><strong>AI Summary:</strong> ${data.result}</div>`;
     }
     analysisContent.innerHTML = html;
 } 
