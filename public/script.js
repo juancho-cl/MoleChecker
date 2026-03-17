@@ -67,6 +67,40 @@ function updateAnalyzeButton() {
     analyzeBtn.disabled = !hasImage && !hasChanges;
 }
 
+// =============================================================================
+// AI INTEGRATION — PROMPT ENGINEERING
+// =============================================================================
+//
+// Model: OpenAI GPT-4o (multimodal — supports both text and image input)
+//
+// System prompt design:
+//   The system prompt frames the model as a dermatology-specialized medical AI
+//   and instructs it to evaluate skin lesions using the clinical ABCDE criteria:
+//     A — Asymmetry      B — Border irregularity    C — Color variation
+//     D — Diameter       E — Evolution (changes over time)
+//
+// Structured JSON output:
+//   Both prompts (image + text-only) append jsonInstructions, which enforces
+//   a strict JSON response schema:
+//     { criteria: {A,B,C,D,E}, risk: {percentage, level, findings}, recommendation }
+//   This allows reliable programmatic parsing of the AI response without
+//   relying on brittle text extraction.
+//
+// Malignancy risk range (10%–90% in 5% increments):
+//   The range is bounded to avoid conveying false certainty (0% or 100%).
+//   5% increments communicate that this is an estimate, not a binary outcome.
+//
+// Two prompt paths:
+//   1. Image + clinical history  → multimodal message (vision + text)
+//   2. Clinical history only     → text-only message
+//   Both paths use the same JSON schema for consistent response handling.
+//
+// Response parsing:
+//   Primary:  JSON.parse after stripping markdown code fences (```json ... ```)
+//   Fallback: regex-based markdown parser (parseAnalysisResponse) used when
+//             the model returns markdown instead of raw JSON despite instructions
+// =============================================================================
+
 async function handleAnalyze() {
     if (analyzeBtn.disabled) return;
     try {
@@ -86,7 +120,12 @@ async function handleAnalyze() {
         analyzeBtn.disabled = true;
         analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
         let messages = [];
+        // JSON schema instruction appended to every prompt to enforce structured output.
+        // Appending it to both system and user messages increases compliance rate.
         const jsonInstructions = `\n\nPlease provide your analysis in the following JSON format (and nothing else):\n{\n  "criteria": {\n    "Asymmetry": "...",\n    "Border": "...",\n    "Color": "...",\n    "Diameter": "...",\n    "Evolution": "..."\n  },\n  "risk": {\n    "percentage": 0-100,\n    "level": "Low|Medium|High",\n    "findings": "..."\n  },\n  "recommendation": "..."\n}\nIf information is missing, use an empty string. Do not add any extra text or explanation outside the JSON.`;
+        // Path 1: Multimodal — image + clinical history
+        // Uses GPT-4o vision: message content is an array with text + image_url blocks.
+        // Image is sent as base64-encoded JPEG with detail:"high" for fine-grained analysis.
         if (hasImage && imageBase64) {
             messages = [
                 {
@@ -110,6 +149,7 @@ async function handleAnalyze() {
                     ]
                 }
             ];
+        // Path 2: Text-only — clinical history checkboxes without an image
         } else {
             messages = [
                 {
@@ -122,7 +162,9 @@ async function handleAnalyze() {
                 }
             ];
         }
-        // Use Netlify function as proxy
+        // Route through Netlify serverless function to keep the OpenAI API key server-side.
+        // gpt-4o: chosen for vision capability and strong instruction-following for JSON output.
+        // max_tokens: 500 is sufficient for the structured JSON schema defined above.
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -141,9 +183,11 @@ async function handleAnalyze() {
         let parsed = null;
         let warning = '';
         try {
+            // Primary parser: strip markdown fences (```json...```) then JSON.parse
             analysis = analysis.trim().replace(/^```json|^```|```$/g, '');
             parsed = JSON.parse(analysis);
         } catch (e) {
+            // Fallback parser: regex-based extraction for markdown-formatted responses
             parsed = parseAnalysisResponse(analysis);
             warning = `<div class='error'><i class='fas fa-exclamation-circle'></i> <strong>Warning:</strong> The response was not in the expected JSON format. Displaying best-effort parsing.</div>`;
         }
